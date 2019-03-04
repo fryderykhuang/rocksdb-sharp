@@ -156,6 +156,27 @@ namespace RocksDbSharp
             return result;
         }
 
+        /// <returns>(result_buffer, result_length_in_bytes)</returns>
+        public (IntPtr, UIntPtr) rocksdb_get_ptr(
+            IntPtr db,
+            IntPtr read_options,
+            byte[] key,
+            long keyLength,
+            out IntPtr errptr,
+            ColumnFamilyHandle cf = null)
+        {
+            UIntPtr skLength = (UIntPtr)keyLength;
+            var resultPtr = cf == null
+                ? rocksdb_get(db, read_options, key, skLength, out UIntPtr valueLength, out errptr)
+                : rocksdb_get_cf(db, read_options, cf.Handle, key, skLength, out valueLength, out errptr);
+            if (errptr != IntPtr.Zero)
+                return (IntPtr.Zero, UIntPtr.Zero);
+            if (resultPtr == IntPtr.Zero)
+                return (IntPtr.Zero, UIntPtr.Zero);
+
+            return (resultPtr, valueLength);
+        }
+
         /// <summary>
         /// Executes a multi_get with automatic marshalling
         /// </summary>
