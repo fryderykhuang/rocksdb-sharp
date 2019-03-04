@@ -472,5 +472,13 @@ namespace RocksDbSharp
                 throw new RocksDbException(errptr);
             return result;
         }
+
+        public void rocksdb_flushwal(
+            /*rocksdb_t**/ IntPtr db, bool sync)
+        {
+            rocksdb_flushwal(db, sync, out IntPtr errptr);
+            if (errptr != IntPtr.Zero)
+                throw new RocksDbException(errptr);
+        }
     }
 }
