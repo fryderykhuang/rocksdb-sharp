@@ -300,5 +300,10 @@ namespace RocksDbSharp
                 encoding = Encoding.UTF8;
             CompactRange(encoding.GetBytes(start), encoding.GetBytes(limit), cf);
         }
+
+        public void FlushWal(bool sync = false)
+        {
+            Native.Instance.rocksdb_flushwal(Handle, sync);
+        }
     }
 }

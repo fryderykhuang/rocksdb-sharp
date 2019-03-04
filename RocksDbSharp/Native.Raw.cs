@@ -418,6 +418,9 @@ public abstract /* const rocksdb_livefiles_t* */ IntPtr rocksdb_livefiles(
 public abstract void rocksdb_flush(
     /*rocksdb_t**/ IntPtr db, /*(const rocksdb_flushoptions_t*)*/ IntPtr flush_options, out IntPtr errptr);
 
+    public abstract void rocksdb_flushwal(
+        /*rocksdb_t**/ IntPtr db, /*(bool sync)*/ bool sync, out IntPtr errptr);
+
 public abstract void rocksdb_disable_file_deletions(/*rocksdb_t**/ IntPtr db,
                                                                out IntPtr errptr);
 
@@ -1098,6 +1101,8 @@ public abstract void rocksdb_options_set_inplace_update_num_locks(
 public abstract void rocksdb_options_set_report_bg_io_stats(
             /* rocksdb_options_t* */ IntPtr options, int value);
 
+    public abstract void rocksdb_options_set_manual_wal_flush(
+        /* rocksdb_options_t* */ IntPtr options, bool value);
 }
 public enum Recovery
 {
