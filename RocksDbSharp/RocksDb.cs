@@ -119,6 +119,17 @@ namespace RocksDbSharp
             return Native.Instance.rocksdb_get(Handle, (readOptions ?? DefaultReadOptions).Handle, key, keyLength, cf);
         }
 
+        public (IntPtr, UIntPtr) GetUnsafe(byte[] key, long keyLength, ColumnFamilyHandle cf = null, ReadOptions readOptions = null)
+        {
+            return Native.Instance.rocksdb_get_ptr(Handle, (readOptions ?? DefaultReadOptions).Handle, key, keyLength,
+                cf);
+        }
+
+        public void FreeResultBuffer(IntPtr resultPtr)
+        {
+            Native.Instance.rocksdb_free(resultPtr);
+        }
+
         /// <summary>
         /// Reads the contents of the database value associated with <paramref name="key"/>, if present, into the supplied
         /// <paramref name="buffer"/> at <paramref name="offset"/> up to <paramref name="length"/> bytes, returning the

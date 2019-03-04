@@ -172,6 +172,19 @@ namespace RocksDbSharp
             return result;
         }
 
+        public (IntPtr, UIntPtr) rocksdb_get_ptr(
+            IntPtr db,
+            IntPtr read_options,
+            byte[] key,
+            long keyLength = 0,
+            ColumnFamilyHandle cf = null)
+        {
+            var result = rocksdb_get_ptr(db, read_options, key, keyLength == 0 ? key.Length : keyLength, out IntPtr errptr, cf);
+            if (errptr != IntPtr.Zero)
+                throw new RocksDbException(errptr);
+            return result;
+        }
+
         public KeyValuePair<string, string>[] rocksdb_multi_get(
             IntPtr db,
             IntPtr read_options,
