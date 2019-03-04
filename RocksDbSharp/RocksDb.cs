@@ -236,6 +236,16 @@ namespace RocksDbSharp
             return new Snapshot(Handle, snapshotHandle);
         }
 
+        public IntPtr CreateSnapshotHandle()
+        {
+            return Native.Instance.rocksdb_create_snapshot(Handle);
+        }
+
+        public void ReleaseSnapshotHandle(IntPtr handle)
+        {
+            Native.Instance.rocksdb_release_snapshot(Handle, handle);
+        }
+
         public static IEnumerable<string> ListColumnFamilies(DbOptions options, string name)
         {
             return Native.Instance.rocksdb_list_column_families(options.Handle, name);

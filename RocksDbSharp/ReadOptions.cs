@@ -50,6 +50,12 @@ namespace RocksDbSharp
             return this;
         }
 
+        public ReadOptions SetSnapshot(IntPtr snapshotHandle)
+        {
+            Native.Instance.rocksdb_readoptions_set_snapshot(Handle, snapshotHandle);
+            return this;
+        }
+
         public unsafe ReadOptions SetIterateUpperBound(byte* key, ulong keylen)
         {
             UIntPtr klen = (UIntPtr)keylen;
