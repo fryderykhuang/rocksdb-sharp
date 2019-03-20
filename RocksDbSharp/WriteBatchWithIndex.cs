@@ -100,6 +100,11 @@ namespace RocksDbSharp
             return Native.Instance.rocksdb_writebatch_wi_get_from_batch_and_db(Handle, db.Handle, (options ?? RocksDb.DefaultReadOptions).Handle, key, keyLength, cf);
         }
 
+        public (IntPtr resultBuffer, UIntPtr length) GetUnsafe(RocksDb db, byte[] key, ulong keyLength, ColumnFamilyHandle cf = null, ReadOptions options = null)
+        {
+            return Native.Instance.rocksdb_writebatch_wi_get_from_batch_and_db_ptr(Handle, db.Handle, (options ?? RocksDb.DefaultReadOptions).Handle, key, keyLength, cf);
+        }
+
         public ulong Get(RocksDb db, byte[] key, byte[] buffer, ulong offset, ulong length, ColumnFamilyHandle cf = null, ReadOptions options = null)
         {
             return Get(db, key, (ulong)key.GetLongLength(0), buffer, offset, length, cf, options);

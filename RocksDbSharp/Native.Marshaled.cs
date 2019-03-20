@@ -1031,6 +1031,25 @@ namespace RocksDbSharp
             return result;
         }
 
+        public (IntPtr, UIntPtr) rocksdb_writebatch_wi_get_from_batch_and_db_ptr(
+            IntPtr wb,
+            IntPtr db,
+            IntPtr read_options,
+            byte[] key,
+            ulong keyLength,
+            out IntPtr errptr,
+            ColumnFamilyHandle cf = null)
+        {
+            var resultPtr = cf == null
+                ? rocksdb_writebatch_wi_get_from_batch_and_db(wb, db, read_options, key, new UIntPtr(keyLength), out UIntPtr valueLength, out errptr)
+                : rocksdb_writebatch_wi_get_from_batch_and_db_cf(wb, db, read_options, cf.Handle, key, new UIntPtr(keyLength), out valueLength, out errptr);
+            if (errptr != IntPtr.Zero)
+                return default;
+            if (resultPtr == IntPtr.Zero)
+                return default;
+            return (resultPtr, valueLength);
+        }
+
         public void rocksdb_writebatch_wi_delete(IntPtr writeBatch,
                                       byte[] key, ulong klen)
         {
