@@ -486,6 +486,20 @@ namespace RocksDbSharp
             return result;
         }
 
+        public (IntPtr, UIntPtr) rocksdb_writebatch_wi_get_from_batch_and_db_ptr(
+            IntPtr wb,
+            IntPtr db,
+            IntPtr read_options,
+            byte[] key,
+            ulong keyLength = 0,
+            ColumnFamilyHandle cf = null)
+        {
+            var result = rocksdb_writebatch_wi_get_from_batch_and_db_ptr(wb, db, read_options, key, keyLength == 0 ? (ulong)key.Length : keyLength, out IntPtr errptr, cf);
+            if (errptr != IntPtr.Zero)
+                throw new RocksDbException(errptr);
+            return result;
+        }
+
         public void rocksdb_flushwal(
             /*rocksdb_t**/ IntPtr db, bool sync)
         {
