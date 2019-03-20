@@ -5,7 +5,7 @@ namespace RocksDbSharp
     public class NativePackage
     {
         public static string GetCodeBase()
-#if NETSTANDARD1_6
+#if NETSTANDARD2_0
             => AppContext.BaseDirectory;
 #else
             => AppDomain.CurrentDomain.BaseDirectory;
